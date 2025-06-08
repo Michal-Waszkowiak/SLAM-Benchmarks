@@ -22,8 +22,8 @@ Celem projektu realizowanego w ramach przedmiotu Autonomiczne Samochody jest prz
 
 W celu pobrania konkretnego obrazu Dockera należy użyć jednej z poniższych komend, a także z konkretnego SLAM'a pobrać plik .sh, który umożliwi zbudowanie kontenera <br>
 <br>
-LIO-SAM <pre> ```docker pull waszini/lio-sam```</pre> <br>
-ORB-SLAM-3 <pre> ```docker pull waszini/orbslam3```</pre> <br>
+LIO-SAM <pre> ```docker pull waszini/lio-sam:v1```</pre> <br>
+ORB-SLAM-3 <pre> ```docker pull waszini/orbslam3:v1```</pre> <br>
 CARTOGPRAHER <pre> ```do uzupełnienia```</pre> <br>
 FAST-SLAM-2 <pre> ```do uzupełnienia```</pre> <br>
 
