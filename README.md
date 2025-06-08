@@ -41,8 +41,8 @@ Jednym z argumentów podawanym do komendy wywołującej działanie SLAM'u jest p
 <div align="center">
   <table>
     <tr>
-      <td><img src="FIlmy/KISS.png" alt="Chmura punktów kiss" width="500"/></td>
-      <td><img src="FIlmy/kiss_slam.gif" alt="Animacja KISS-SLAM" width="500"/></td>
+      <td><img src="FIlmy/KISS.png" alt="Chmura punktów kiss" width="700"/></td>
+      <td><img src="FIlmy/kiss_slam.gif" alt="Animacja KISS-SLAM" width="300"/></td>
     </tr>
   </table>
 </div>
@@ -59,8 +59,8 @@ Do poprawnego działania LIO-SAM należy odpowiednio skonfigurować plik `params
 <div align="center">
   <table>
     <tr>
-      <td><img src="FIlmy/LIO.png" alt="Chmura punktów lio" width="500"/></td>
-      <td><img src="FIlmy/lio_sam.gif" alt="Animacja LIO-SAM" width="500"/></td>
+      <td><img src="FIlmy/LIO.png" alt="Chmura punktów lio" width="700"/></td>
+      <td><img src="FIlmy/lio_sam.gif" alt="Animacja LIO-SAM" width="300"/></td>
     </tr>
   </table>
 </div>
