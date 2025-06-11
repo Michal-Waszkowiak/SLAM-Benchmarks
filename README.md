@@ -97,18 +97,18 @@ Link do źródła: https://github.com/rsasaki0109/lidarslam_ros2 <br>
 
 ## Wyniki
 
-Poniżej są zaprezentowane wyniki dotyczące dokładności poszczególnych SLAM'ów w porównaniu z Ground truth. Za GT wzięliśmy dane otrzymane z topicu `/tf`, które reprezentują pozycję pojazdu ale otrzymaną dzięki EKF (Rozszerzony Filtr Kalmana). Rezultaty zostały otrzymane na podstawie danych znajdujących się we folderze `Wyniki`. Znajdują się tam pliki dla poszczególnych SLAM'ów oraz GT. Format plików jest następujący:
+Poniżej są zaprezentowane wyniki dotyczące dokładności poszczególnych SLAM'ów w porównaniu z Ground truth. Za GT wzięliśmy dane otrzymane z topicu `/sensing/gnss/gnss_transforms/rear_axis_pose`, które reprezentują pozycję pojazdu z GNSS. Rezultaty zostały otrzymane na podstawie danych znajdujących się we folderze `Wyniki`. Znajdują się tam pliki dla poszczególnych SLAM'ów oraz GT. Format plików jest następujący:
 <p align="center"> t - x - y - z - qw - qy - qz - qw</p>
 
 <div align="center">
 
-|               | KISS-SLAM | LIO-SAM   | ORB-SLAM-3 | CARTOGRAPHER | FAST-SLAM-2 |
+|               | KISS-SLAM | LIO-SAM   | ORB-SLAM-3 | CARTOGRAPHER | LIDARSLAM-ROS2 |
 |---------------|-----------|-----------|------------|--------------|-------------|
-| RMSE          | 5.4967 m  | 19.0004 m | 9.9475 m   | -            | -           |
-| MAE           | 4.6551 m  | 15.9962 m | 8.3742 m   | -            | -           |
-| Max Error     | 9.8091 m  | 31.8136 m | 16.7721 m  | -            | -           |
-| STD Error     | 2.9230 m  | 10.2537 m | 5.3691 m   | -            | -           |
-| Median Error  | 4.2390 m  | 14.3596 m | 7.4455 m   | -            | -           |
+| RMSE [m]          | 5.3008  | 18.4349 | 9.5479   | 0.4381            | 18.4451           |
+| MAE [m]           | 4.3948  | 15.2397 | 7.9029   | 0.2907            | 15.2612           |
+| Max Error [m]     | 9.2144  | 31.3656 | 16.1426  | 1.6311            | 31.4287           |
+| STD Error [m]     | 2.9638  | 10.3730 | 5.3578   | 0.3278            | 10.3594           |
+| Median Error [m]  | 3.9376  | 13.0750 | 6.7316   | 0.1724            | 13.0645           |
 
 </div>
 <p align="center"><b>Tabela 1.</b> Porównanie SLAM'ów z Ground truth.</p>
@@ -118,5 +118,5 @@ WSTAWIĆ JESZCZE HISTOGRAM BŁĘDÓW ORAZ TRAJEKTORIE!!!!!!!!!!!!!!!!!!
 ## Wnioski
 
 - rozbieżności w wynikach dla SLAM'ów korzystających z danych IMU względem GT mogą wynikać z nieprawidłowego zamontowania czujnika na pojeździe
-- rozbieżności w wynikach, zwłaszcza w wykresie przedstawiąjącym trajektorie względem GT wynikają z dryfu podczas liczenia EKF dla `/tf`, stąd pojawiają się charakterystyczne "fale"
-- dopisać resztę potem
+- 
+- 
