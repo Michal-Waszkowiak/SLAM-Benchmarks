@@ -36,7 +36,15 @@ Link do źródła: https://github.com/PRBonn/kiss-slam <br>
 ### config.yaml
 
 Jednym z argumentów podawanym do komendy wywołującej działanie SLAM'u jest podanie śćieżki do pliku `config.yaml`. Można go uzyskać za pomocą: <pre>```kiss_slam_dump_config```</pre> Posiada on następujące elementy:
-- wymienić co tam jest i jaki to ma wpływ na działanie oraz ogarnąć jak zrobic domykanie pętli
+- `out_dir` - ścieżka zapisu
+- `odometry` - zawiera parametry przetwarzania wstępnego (preprocessing), rejestracji chmur punktów (registration) i podstawowego mapowania (mapping) <br>
+— preprocessing: <br>
+`max_range / min_range` – odfiltrowuje punkty spoza danego zakresu odległości <br>
+`deskew` – jeśli true, koryguje "rozmycie" chmury punktów spowodowane ruchem robota w czasie trwania jednego skanu <br>
+— registration: <br>
+`max_num_iterations` – maksymalna liczba iteracji algorytmu dopasowania (np. ICP). Więcej iteracji = większa precyzja, ale wolniej <br>
+`convergence_criterion` – algorytm zakończy wcześniej, jeśli poprawa dopasowania będzie mniejsza niż ta wartość <br>
+
 
 <div align="center">
   <table>
@@ -113,10 +121,28 @@ Poniżej są zaprezentowane wyniki dotyczące dokładności poszczególnych SLAM
 </div>
 <p align="center"><b>Tabela 1.</b> Porównanie SLAM'ów z Ground truth.</p>
 
-WSTAWIĆ JESZCZE HISTOGRAM BŁĘDÓW ORAZ TRAJEKTORIE!!!!!!!!!!!!!!!!!!
+<p align="center">
+  <img src="Wyniki/trajectory.png" alt="Chmura punktów orb" width="70%">
+</p>
+
+</div>
+<p align="center"> Porównanie trajektorii</p>
+
+
+<p align="center">
+  <img src="Wyniki/histogram.png" alt="Chmura punktów orb" width="100%">
+</p>
+
+</div>
+<p align="center"> Histogram błędów</p>
+
 
 ## Wnioski
 
-- rozbieżności w wynikach dla SLAM'ów korzystających z danych IMU względem GT mogą wynikać z nieprawidłowego zamontowania czujnika na pojeździe
-- 
-- 
+- Rozbieżności w wynikach dla SLAM'ów korzystających z danych IMU względem GT mogą wynikać z nieprawidłowego zamontowania czujnika na pojeździe
+- Spośród rozpatrywanych SLAM'ów, Cartographer wykazał się najmniejszymi błędami co wskazują wyniki przedstawione w tabeli 1 oraz histogram błędów
+- Rozbieżności w trajektoriach a obliczonymi błędami mogą być spowodowane tym, że do obliczenia błędów względem ground truth wyniki ze SLAM'ów zostały przesunięte do początku układu współrzędnych (0,0,0), natomiast do wykreślenia trajektorii zastosowano dopasowanie Procrustesa, które automatycznie przesunęło i przeskalowało punkty względem ground truth
+- Zniekształcona trajektoria w przypadku ORBSLAM3 wynika z użycia tylko trybu dla jednej kamery, a także tego że nagrany obraz był miejscami zbyt ciemny, przez co SLAM nie mógl znaleźć cech charakterystycznych na obrazie
+- Różnice w dokładności mogą też wynikać z braku synchronizacji czasowej między czujnikami (np. kamera, IMU, LiDAR), co szczególnie dotyka algorytmy fuzji sensorycznej (LIO-SAM, ORB-SLAM3)
+- Niska wartość odchylenia standardowego (STD Error) w przypadku Cartographera (0.3278 m) i KISS-SLAM (2.96 m) świadczy o stosunkowo stabilnej estymacji pozycji w czasie. Wysoka zmienność błędów dla LIO-SAM i LIDARSLAM-ROS2 sugeruje niestabilność estymatora pozycji, co może negatywnie wpłynąć na powtarzalność działania w innych przejazdach.
+- Jakość danych wejściowych (np. filtrowanie szumu, kompensacja ruchu, synchronizacja czasowa) ma istotny wpływ na końcowy wynik SLAM. Brak odpowiedniego wstępnego przetwarzania może prowadzić do znacznych błędów lokalizacji, nawet w algorytmach opartych na zaawansowanych metodach fuzji sensorycznej, jak LIO-SAM.
