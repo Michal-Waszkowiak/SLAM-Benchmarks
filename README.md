@@ -4,8 +4,8 @@ Celem projektu realizowanego w ramach przedmiotu Autonomiczne Samochody jest prz
 - KISS-SLAM (dane z LiDAR)
 - LIO-SAM (dane z LiDAR i IMU)
 - ORBSLAM3 (dane z pojedynczej kamery RGB)
-- CARTOGRAPHER ()
-- FAST-SLAM 2.0 ()
+- CARTOGRAPHER (dane z LiDAR)
+- LIDARSLAM-ROS2 (dane z LiDAR)
 
 ## Spis treści
 - [OBRAZY-DOCKERA](#obrazy-dockera)
@@ -13,7 +13,7 @@ Celem projektu realizowanego w ramach przedmiotu Autonomiczne Samochody jest prz
 - [LIO-SAM](#lio-sam)
 - [ORB-SLAM-3](#orb-slam-3)
 - [CARTOGRAPHER](#cartographer)
-- [FAST-SLAM-2](#fast-slam-2)
+- [LIDARSLAM-ROS2](#lidar-slam-ros2)
 - [Wyniki](#wyniki)
 - [Wnioski](#wnioski)
 
@@ -24,8 +24,8 @@ W celu pobrania konkretnego obrazu Dockera należy użyć jednej z poniższych k
 <br>
 LIO-SAM <pre> ```docker pull waszini/lio-sam:v1```</pre> <br>
 ORB-SLAM-3 <pre> ```docker pull waszini/orbslam3:v1```</pre> <br>
-CARTOGPRAHER <pre> ```do uzupełnienia```</pre> <br>
-FAST-SLAM-2 <pre> ```do uzupełnienia```</pre> <br>
+CARTOGPRAHER <pre> ```docker pull div57/cartographer:v1```</pre> <br>
+LIDARSLAM-ROS2 <pre> ```docker pull div57/lidarslam:v2```</pre> <br>
 
 ## KISS-SLAM
 Link do literatury: https://www.ipb.uni-bonn.de/wp-content/papercite-data/pdf/kiss2025iros.pdf <br>
@@ -82,9 +82,18 @@ Do poprawnego działania ORB-SLAM3 należy odpowiednio skonfigurować plik `PP.y
 Link do literatury: https://google-cartographer.readthedocs.io/en/latest/ <br>
 Link do źródła: https://github.com/cartographer-project/cartographer <br>
 
-## FAST-SLAM-2
-Link do literatury: https://robots.stanford.edu/papers/Montemerlo03a.pdf <br>
-Link do źródła: https://github.com/yingkunwu/FastSLAM <br>
+**CARTOGRAPHER** to system do jednoczesnej lokalizacji i mapowania (SLAM), który w czasie rzeczywistym szacuje trajektorię robota oraz buduje mapę otoczenia. Wykorzystuje on submapy i graf optymalizacyjny, co pozwala na ściśle sprzężone dopasowywanie skanów laserowych (2D/3D), odometrii i (opcjonalnie) innych sensorów. Dzięki lokalnemu dopasowywaniu skanów i zamykaniu pętli eliminuje dryf, a elastyczna konfiguracja parametrów i wielowątkowe przetwarzanie zapewniają wysoką wydajność na platformach mobilnych. W celu poprawnego uruchomienia należy paczkę ```rosbag``` umieścić w katalogu ```/home/data```, zbudować środowisko, a następnie: </br>
+- W 1 Terminalu </br> <pre> ```source install/setup.bash``` </pre> <pre> ```ros2 bag play /home/data/<nazwa_rosbag'a>``` </pre>
+- W 2 Terminalu </br> <pre> ```source install/setup.bash``` </pre> <pre> ```ros2 run lidarslam lidarslam --ros-args -p set_initial_pose:=true -r /input_cloud:=/sensing/lidar/concatenated/pointcloud``` </pre>
+- W 3 Terminalu </br> <pre> ```source install/setup.bash``` </pre> <pre> ```ros2 topic echo /current_pose > /home/data/traj_lidarslam.txt``` </pre>
+
+## LIDAR-SLAM-ROS2
+Link do źródła: https://github.com/rsasaki0109/lidarslam_ros2 <br>
+
+**LIDAR-SLAM-ROS2** to pakiet ROS 2 implementujący 3D SLAM na podstawie rejestracji chmur punktów metodami NDT i GICP jako frontend oraz grafowej optymalizacji trajektorii w backendzie. Wykorzystuje przyśpieszenie OpenMP dla sekwencyjnego dopasowywania skanów, buduje submapy i optymalizuje je w grafie pozycji z obsługą zamykania pętli, co minimalizuje dryf i zapewnia dokładne, w czasie rzeczywistym estymacje trajektorii oraz mapowanie otoczenia. W celu poprawnego uruchomienia należy paczkę ```rosbag``` umieścić w katalogu ```/home/data```, a następnie: </br>
+- W 1 Terminalu </br> <pre> ```source install/setup.bash``` </pre> <pre> ```ros2 bag play /home/data/<nazwa_rosbag'a>``` </pre>
+- W 2 Terminalu </br> <pre> ```source install/setup.bash``` </pre> <pre> ```ros2 run cartographer_ros cartographer_node -configuration_directory /opt/ros/humble/share/cartographer_ros/configuration_files -configuration_basename backpack_2d.lua``` </pre>
+- W 3 Terminalu </br> <pre> ```source install/setup.bash``` </pre> <pre> ```python3 /home/data/tf_logger.py``` </pre>
 
 ## Wyniki
 
